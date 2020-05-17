@@ -11,5 +11,5 @@ and topics with subscriptions by clients
 two clients starts the game and the third one will wait for fourth client to join him in another game.
 - integration tests is doable but I ran out of time.
 
-#run steps:
+# run steps:
 mvnw spring-boot:run
