@@ -1,5 +1,5 @@
 # Game of Three java Client
-#Notes :
+# Notes :
 - Java version 11 
 - way of presentation is through console but it's decoupled from the logic
 - built on top of Spring boot, used websocket for communication with other player
@@ -7,7 +7,7 @@
 - players can play both automatically without inputs but only after
 doing registration and start the game.
 
-#Run steps:
+# Run steps:
 - build with maven : mvnw install
 - use the generated Jar in target folder and copy it with the number of clients
 you want to try
