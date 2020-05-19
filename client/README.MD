@@ -37,49 +37,21 @@ Please wait for your opponent to join !
 
 Game is ready press any key to proceed
 
-Your random starting number is : 110
+Your random starting number is : 71
 please wait your turn
 
 Now your turn !
-Your opponent made wrong move, Current number is still 110
-Your auto pilot player choosed an addition move of 0
-Your added number is 110
-Not a valid move, Your added number is not divisible by 3 !
-please wait your turn
-
-Now your turn !
-Your opponent made wrong move, Current number is still 110
-Your auto pilot player choosed an addition move of -1
-Your added number is 109
-Not a valid move, Your added number is not divisible by 3 !
-please wait your turn
-
-Now your turn !
-Your opponent number reached 37 from his added number 111
+Your opponent number reached 24 from his added number 72
 Your auto pilot player choosed an addition move of 1
-Your added number is 38
+Your added number is 25
 Not a valid move, Your added number is not divisible by 3 !
 please wait your turn
 
 Now your turn !
-Your opponent made wrong move, Current number is still 37
-Your auto pilot player choosed an addition move of -1
-Your added number is 36
-Nice Move !, Your added number after division is 12
-please wait your turn
-
-Now your turn !
-Your opponent made wrong move, Current number is still 12
+Your opponent number reached 8 from his added number 24
 Your auto pilot player choosed an addition move of 1
-Your added number is 13
-Not a valid move, Your added number is not divisible by 3 !
-please wait your turn
-
-Now your turn !
-Your opponent made wrong move, Current number is still 12
-Your auto pilot player choosed an addition move of 0
-Your added number is 12
-Nice Move !, Your added number after division is 4
+Your added number is 9
+Nice Move !, Your added number after division is 3
 please wait your turn
 
 Your opponent reached 1, You LOSE ! , Hard Luck yousef
