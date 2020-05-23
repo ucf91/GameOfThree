@@ -4,6 +4,10 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class ConsoleUtils {
+
+    private ConsoleUtils() {
+    }
+
     public static String readAlphaNumericInput(boolean silent) {
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
@@ -36,7 +40,7 @@ public class ConsoleUtils {
     public static String enterKeyInput() {
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
-        if (Objects.isNull(userInput) || (Objects.nonNull(userInput) && !userInput.equals(""))) {
+        if (Objects.isNull(userInput) || !userInput.equals("")) {
             userInput = enterKeyInput();
         }
         return userInput;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
-@Component
+@Component("defaultHandler")
 @RequiredArgsConstructor
 public class GameEventsHandler {
     private CompletableFuture<GameCommand> gameCommandFuture;

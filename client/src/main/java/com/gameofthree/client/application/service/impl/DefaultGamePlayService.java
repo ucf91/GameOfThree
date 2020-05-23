@@ -7,15 +7,17 @@ import com.gameofthree.client.application.model.GameCommand;
 import com.gameofthree.client.application.model.PlayMode;
 import com.gameofthree.client.application.service.ConnectionService;
 import com.gameofthree.client.application.service.GamePlayService;
-import com.gameofthree.client.application.util.console.ConsoleUtils;
+import com.gameofthree.client.application.service.NumberGenerationService;
+import com.gameofthree.client.application.view.AdditionView;
 import com.gameofthree.client.application.view.GameIdleView;
 import com.gameofthree.client.application.view.MessagesView;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -25,10 +27,13 @@ public class DefaultGamePlayService implements GamePlayService {
     @Value("${game-server.endpoint.play}")
     private String playEndpointUrl;
 
+    @Qualifier("defaultHandler")
     private final GameEventsHandler gameEventsHandler;
     private final ConnectionService connectionService;
     private final MessagesView messagesView;
     private final GameIdleView gameIdleView;
+    private final AdditionView additionView;
+    private final NumberGenerationService numberGenerationService;
 
     @Override
     public void beginPlay(GameCommand gameCommand) throws ExecutionException, InterruptedException, GameException {
@@ -67,27 +72,23 @@ public class DefaultGamePlayService implements GamePlayService {
     }
 
     private void sendResultingNumberToOpponent(GameCommand gameCommand, int resultAddedNumber) throws GameException {
-        connectionService.getCurrentSession()
-                .orElseThrow(() -> new GameException("No active session found"))
-                .send(playEndpointUrl,
-                        GameCommand.builder()
-                                .command(Command.PLAY)
-                                .gameId(gameCommand.getGameId())
-                                .previousNumber(gameCommand.getResultingNumber())
-                                .resultingNumber(resultAddedNumber)
-                                .build());
+        connectionService.send(playEndpointUrl,
+                GameCommand.builder()
+                        .command(Command.PLAY)
+                        .gameId(gameCommand.getGameId())
+                        .previousNumber(gameCommand.getResultingNumber())
+                        .resultingNumber(resultAddedNumber)
+                        .build());
     }
 
     private int chooseAnAddition(GameCommand gameCommand) {
         int userInput = 0;
         if (PlayMode.AUTO == gameCommand.getPlayMode()) {
-            // generate random number from -1 to 1
-            userInput = new Random().nextInt(3) - 1;
+            userInput = numberGenerationService.generateAdditionNumber();
             messagesView.render("Your auto pilot player choosed an addition move of " + userInput);
         } else {
             do {
-                messagesView.render("Please choose your addition move from these values [-1, 0, 1]");
-                userInput = ConsoleUtils.readNumericInput();
+                userInput = (int) additionView.render();
             } while (!List.of(-1, 0, 1).contains(userInput));
         }
         int addedNumber = gameCommand.getResultingNumber() + userInput;
@@ -120,18 +121,17 @@ public class DefaultGamePlayService implements GamePlayService {
     }
 
     private void sendRandomWholeNumber(GameCommand gameCommand) throws GameException {
-        int randomWholeNumber = new Random().nextInt(100) + 50;// minimum starting number is 50
+        int randomWholeNumber = numberGenerationService.generateRandomWholeNumber();
 
         messagesView.render("Your random starting number is : " + randomWholeNumber);
 
-        GameCommand newCommand = GameCommand.builder().command(Command.PLAY)
+        GameCommand newCommand = GameCommand.builder()
+                .command(Command.PLAY)
                 .previousNumber(0)
                 .resultingNumber(randomWholeNumber)
                 .gameId(gameCommand.getGameId())
                 .build();
 
-        connectionService.getCurrentSession()
-                .orElseThrow(() -> new GameException("No active session found"))
-                .send(playEndpointUrl, newCommand);
+        connectionService.send(playEndpointUrl, newCommand);
     }
 }

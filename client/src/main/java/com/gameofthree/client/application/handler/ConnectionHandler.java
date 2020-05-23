@@ -2,6 +2,8 @@ package com.gameofthree.client.application.handler;
 
 import com.gameofthree.client.application.model.GameCommand;
 import com.gameofthree.client.application.model.RegistrationResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -12,6 +14,7 @@ import java.lang.reflect.Type;
 import java.util.concurrent.CompletableFuture;
 
 @Component
+@RequiredArgsConstructor
 public class ConnectionHandler extends StompSessionHandlerAdapter {
 
     @Value("${topics.registration}")
@@ -19,13 +22,11 @@ public class ConnectionHandler extends StompSessionHandlerAdapter {
     @Value("${topics.gameplay}")
     private String gameplayTopicUrl;
 
+    @Qualifier("defaultHandler")
     private final GameEventsHandler gameEventsHandler;
 
     private CompletableFuture<Boolean> afterConnectedFuture;
 
-    public ConnectionHandler(GameEventsHandler gameEventsHandler) {
-        this.gameEventsHandler = gameEventsHandler;
-    }
 
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
