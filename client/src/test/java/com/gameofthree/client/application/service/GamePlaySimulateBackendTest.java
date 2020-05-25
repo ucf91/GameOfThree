@@ -92,7 +92,7 @@ public class GamePlaySimulateBackendTest {
                 .lastMoveValid(true)
                 .build();
         GameCommand playCommand2 = GameCommand.builder()
-                .command(Command.SKIP)
+                .command(Command.PLAY)
                 .gameId(1l)
                 .message("message")
                 .previousNumber(6)
